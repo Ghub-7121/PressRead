@@ -11,6 +11,8 @@ env/
 build/
 dist/
 *.spec
+# 历代版本的成品 exe 本地归档在 versions/<ver>/，同样不进仓库（走 Releases）
+versions/**/*.exe
 
 # ---- 测试 / 截图产物 ----
 tests/shots/
