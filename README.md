@@ -1,55 +1,86 @@
 # 外刊精读 PressRead
 
-联网抓取外国知名期刊杂志的文章，截取一段原文让你自己翻译；不预先给答案，
-你看完再点「显示下一句译文」逐句对照。查词、查句都在右侧独立边栏完成：
-点词默认查**剑桥英汉双解**，词条右上角是「英汉 / 英英」二态开关，拨到英英
-才请求牛津——不拨不发任何请求，切换时原地换掉同一块内容，不往下堆。
-所有查过的内容落在本地 SQLite 缓存里，重复查看不再发请求。
+[![release](https://img.shields.io/badge/release-v1.7.0-2f6f5e?style=flat-square)](https://github.com/Ghub-7121/PressRead/releases)
+[![python](https://img.shields.io/badge/python-3.10%2B-3776ab?style=flat-square&logo=python&logoColor=white)](#环境要求)
+[![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?style=flat-square)](#环境要求)
+[![platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey?style=flat-square)](#环境要求)
+[![tests](https://img.shields.io/badge/tests-218%20unit%20%7C%2048%20GUI-success?style=flat-square)](#测试)
+[![stars](https://img.shields.io/github/stars/Ghub-7121/PressRead?style=flat-square)](https://github.com/Ghub-7121/PressRead/stargazers)
 
-正文是**多源并发竞速**抓的：同时向几个外刊发请求，谁先给出可用正文就用谁，
-其余请求抓完的结果热存 1 小时供下次直接复用。一次显示多段时正文按段分行、
-每段首行缩进，段间留白，译文同样分段对齐。
+**抓外刊、自己译、逐句对照。** 桌面端外刊精读工具：从 53 个外刊来源里抽一段原文，
+先自己翻一遍，再点「显示下一句译文」逐句比对；查词、翻译都在右侧边栏完成，
+结果落在本地 SQLite 缓存里。只用 Python 标准库，不需要 `pip install`。
 
-内置每日任务：完成任意 5 段（可在设置里改成 1–10 段），完成后导出 Markdown + JSON，
-文件名带自增版本号。
+[下载最新版](https://github.com/Ghub-7121/PressRead/releases) ·
+[更新记录](CHANGELOG.md) ·
+[历代版本](versions/README.md) ·
+[问题反馈](https://github.com/Ghub-7121/PressRead/issues)
+
+![阅读页：多段原文、首行缩进、逐句译文](preview/reader.png)
+
+**快速跳转**：
+[功能特性](#功能特性) ·
+[快速开始](#快速开始) ·
+[界面速览](#界面速览) ·
+[使用指南](#使用指南) ·
+[数据目录与缓存](#数据目录与缓存) ·
+[词典与查词](#词典与查词) ·
+[翻译与语气](#翻译与语气) ·
+[外刊来源](#外刊来源) ·
+[每日任务与导出](#每日任务与导出) ·
+[设置项](#设置项) ·
+[项目结构](#项目结构) ·
+[测试](#测试) ·
+[打包成可执行文件](#打包成可执行文件) ·
+[版本历史](#版本历史) ·
+[已知限制](#已知限制) ·
+[参与贡献](#参与贡献)
 
 ---
 
-## 一、环境要求
+## 功能特性
 
-| 项目 | 要求 |
-| --- | --- |
-| 操作系统 | Windows 10/11（主测环境）；macOS / Linux 理论可用，截图工具仅 Windows |
-| Python | **3.10 及以上**（实测 3.13.15） |
-| 第三方库 | **无**。全部使用标准库（`tkinter`、`sqlite3`、`urllib`、`html.parser`、`concurrent.futures`） |
-| 网络 | 能访问外刊 RSS、牛津学习者词典网页、MyMemory 翻译 |
-
-> **必须有 tkinter**。python.org 的 Windows 安装包默认自带；微软商店版或部分精简版
-> Python 会缺 `tkinter`，程序启动时会直接提示并退出（退出码 2）。
-> 用 `python -c "import tkinter; print(tkinter.TkVersion)"` 可以自检。
-
-不需要 `pip install`，克隆/解压即可运行。
-
-> **本机提示**：这台机器上默认的 `python` 是精简版（缺 `tkinter`），请改用
-> `"C:\Program Files\Python313\python.exe" main.py`。下文命令里的 `python`
-> 都可以换成这个完整路径。
+- **先自己译，再看答案**：不预先给译文；写完自己的版本，再逐句弹出参考译文对照。
+- **查词分中英两条链路**：点词默认查剑桥英汉双解；词条右上角「英汉 │ 英英」二态开关，
+  拨到英英才请求牛津，切换是原地替换同一块区域，不往下堆。
+- **正式 / 非正式语气**：译文下方三档语气（自动 / 正式 / 非正式），走必应翻译，
+  **不需要任何 API Key**。
+- **多段同屏也按段排版**：一次显示 1–10 段，正文按段换行、首行缩进、段间留白，
+  译文同样分段对齐，逐句标号与原文一一对应。
+- **53 个外刊来源**：9 个分类、默认 25 个，每个都过了「能取到列表 → 能抽出正文」两步实测。
+- **并发竞速抓正文**：同时向 5 个候选发请求，谁先给出可用正文就用谁；落选结果热存 1 小时。
+- **每日任务与导出**：完成 N 段后导出 Markdown + JSON，文件名带自增版本号，同一天多次导出不覆盖。
+- **断网不至于白屏**：内置离线示例与离线词表，全部来源失败时自动退回。
+- **零第三方依赖**：`tkinter` / `sqlite3` / `urllib` / `html.parser`，克隆即可运行。
 
 ---
 
-## 二、启动
+## 快速开始
+
+### 方式一：下载即用（推荐）
+
+到 [Releases](https://github.com/Ghub-7121/PressRead/releases) 下载 `PressRead.exe`：
+
+- 单文件约 13 MB，双击运行，目标机器**不需要装 Python**。
+- 首次启动要自解包，比后续启动慢 1–2 秒。
+- 未做代码签名，Windows SmartScreen 可能拦一下：点「更多信息 → 仍要运行」。
+- 数据目录固定在 `%APPDATA%\PressRead`，换新版 exe 不会丢缓存和练习记录。
+
+### 方式二：从源码运行
 
 ```bash
-cd 程序/PressRead
+git clone https://github.com/Ghub-7121/PressRead.git
+cd PressRead
+
 python main.py             # 正常启动：联网抓外刊
 python main.py --demo      # 离线示例：不联网，直接进阅读页
 python main.py --practice  # 跳过开始页，直接抓一篇开始练习
-python main.py --selftest  # 环境自检：打印数据目录、RSS 抓取、正文抽取、词典、翻译结果
+python main.py --selftest  # 环境自检：数据目录 / RSS / 正文抽取 / 词典 / 翻译
 python main.py --version   # 打印版本号
 ```
 
-也可以直接双击打包好的 `dist/PressRead.exe`，不需要装 Python（见第十二节）。
-
-`--selftest` 的输出示例（真实运行结果）：
+<details>
+<summary><code>--selftest</code> 输出示例（真实运行结果）</summary>
 
 ```
 PressRead 1.7.0
@@ -62,9 +93,42 @@ RSS 抓取 8.8s: npr=10, smithsonian=10, wired=49, quanta=5, technologyreview=6,
 翻译: [bing] 每天晚上，数十亿的小生物都会向上游去觅食。
 ```
 
+</details>
+
+### 环境要求
+
+| 项目 | 要求 |
+| --- | --- |
+| 操作系统 | Windows 10/11（主测环境）；macOS / Linux 理论可用，截图工具仅 Windows |
+| Python | **3.10 及以上**（实测 3.13.15） |
+| 第三方库 | **无**。全部使用标准库（`tkinter`、`sqlite3`、`urllib`、`html.parser`、`concurrent.futures`） |
+| 网络 | 能访问外刊 RSS、剑桥 / 牛津词典网页、必应翻译 |
+
+> **必须有 tkinter**。python.org 的 Windows 安装包默认自带；微软商店版或部分精简版
+> Python 会缺 `tkinter`，程序启动时会直接提示并退出（退出码 2）。
+> 用 `python -c "import tkinter; print(tkinter.TkVersion)"` 可以自检。
+
+不需要 `pip install`，克隆/解压即可运行。
+
 ---
 
-## 三、怎么用
+## 界面速览
+
+| 开始页 · 今日任务与统计 | 译文 · 按段对齐 |
+| --- | --- |
+| ![开始页](preview/start.png) | ![译文](preview/translation.png) |
+
+| 查词 · 英汉（剑桥双解） | 查词 · 英英（牛津） |
+| --- | --- |
+| ![查词英汉](preview/dict-zh.png) | ![查词英英](preview/dict-en.png) |
+
+| 来源管理 · 53 个来源分 9 类 | 词典与翻译设置 |
+| --- | --- |
+| ![来源管理](preview/settings-sources.png) | ![词典与翻译](preview/settings-dict.png) |
+
+---
+
+## 使用指南
 
 1. **开始页**：点「开始今日练习」。首页会显示今日进度点、连续达成天数、累计段数、
    查词/翻译次数与缓存命中率。
@@ -96,7 +160,7 @@ RSS 抓取 8.8s: npr=10, smithsonian=10, wired=49, quanta=5, technologyreview=6,
 
 ---
 
-## 四、数据目录与缓存
+## 数据目录与缓存
 
 默认数据目录：`%APPDATA%\PressRead`（macOS/Linux 为用户配置目录），结构：
 
@@ -171,10 +235,9 @@ v1.7.0 把它升到了 3（翻译首选从 DeepL 换成必应、语气档改为�
 
 这些参数都在 `config.json` 的 `fetch` 段里，改完重启生效；一般不用动。
 
-
 ---
 
-## 五、词典：英汉 / 英英二态切换
+## 词典与查词
 
 点词默认查**英汉**，中文译词在上、英文原释义在下，例句英中对照。
 词条右上角是一个「英汉 │ 英英」分段开关，当前档高亮。
@@ -205,7 +268,7 @@ v1.7.0 把它升到了 3（翻译首选从 DeepL 换成必应、语气档改为�
 
 ---
 
-## 六、翻译：必应为首选，免 Key 三档语气
+## 翻译与语气
 
 | Provider | 默认 | 语气档 | 说明 |
 | --- | --- | --- | --- |
@@ -247,7 +310,7 @@ v1.7.0 把它升到了 3（翻译首选从 DeepL 换成必应、语气档改为�
 
 ---
 
-## 七、外刊来源
+## 外刊来源
 
 共 **53 个来源**（9 个分类），默认勾选 **25 个**。每个来源都做过「RSS/列表页能取到 → 文章页能抽出正文」两步实测，两步都通过才设为默认。
 
@@ -256,7 +319,7 @@ v1.7.0 把它升到了 3（翻译首选从 DeepL 换成必应、语气档改为�
 - **新闻/科普线**（科学、科技、文化、国际、商业）：练信息密度、术语和长难句，对应试卷的 C/D 篇。
 - **B 篇线**（随笔、教育、人物、成长）：按「有人物、有具体场景、中段有转折、结尾能提炼出道理」挑选，多为专业领域的中小刊物，而不是《经济学人》《卫报》这类大报名刊。
 
-### 7.1 B 篇线（v1.4 新增）
+### B 篇线（v1.4 新增）
 
 | 来源 | 类别 | 默认 | 为什么收 |
 | --- | --- | --- | --- |
@@ -287,7 +350,7 @@ v1.7.0 把它升到了 3（翻译首选从 DeepL 换成必应、语气档改为�
 
 **这几个为什么默认关**：Education Week、Reader's Digest、CS Monitor 是资料里点名的高频来源，但当前网络分别返回 403 / 403 / 502（CS Monitor 是代理层直接断开），默认打开只会拖慢首篇加载。程序里保留条目并在简介注明原因，换网络环境可以在设置里直接勾上。
 
-### 7.2 新闻 / 科普线
+### 新闻 / 科普线
 
 | 来源 | 类别 | 默认 | 备注 |
 | --- | --- | --- | --- |
@@ -309,7 +372,7 @@ Ars Technica（405）、Phys.org（403）、Undark（403）、Longreads（403）
 抓取失败只会记录并跳过，不会卡住整个流程；全部来源失败时，若开启了
 「网络抓不到文章时自动打开离线示例」，会退到内置示例，保证程序可用。
 
-### 7.3 来源管理（v1.4 重构）
+### 来源管理（v1.4 重构）
 
 来源从 29 涨到 53 以后，原来的「一条长列表逐个翻、逐个点」不好用了，设置页改成四件事：
 
@@ -322,7 +385,7 @@ Ars Technica（405）、Phys.org（403）、Undark（403）、Longreads（403）
 
 ---
 
-## 八、每日任务与导出
+## 每日任务与导出
 
 - 每日目标默认 **5 段**（设置里 1–10 可调），按本地日期统计，跨天自动重置。
 - 一段 = 45–130 词的连续原文（过短的段落会自动与相邻段合并，避免出现 18 词的碎片）。
@@ -337,7 +400,7 @@ Ars Technica（405）、Phys.org（403）、Undark（403）、Longreads（403）
 
 ---
 
-## 九、设置项
+## 设置项
 
 | 标签页 | 可调项 |
 | --- | --- |
@@ -350,7 +413,7 @@ Ars Technica（405）、Phys.org（403）、Undark（403）、Longreads（403）
 
 ---
 
-## 十、项目结构
+## 项目结构
 
 ```
 PressRead/
@@ -389,7 +452,10 @@ PressRead/
 │   ├── make_icon.py         生成 app.ico（需要 Pillow，仅打包前用一次）
 │   ├── build_exe.py         PyInstaller 打包脚本（含打包后自检）
 │   └── shot_exe.py          抓打包后 exe 的窗口截图（QA 用）
-├── dist/PressRead.exe       打包成品（单文件）
+├── preview/                 界面截图（README 展示用）
+├── CHANGELOG.md             全版本更新记录（1.0.0 → 当前）
+├── versions/<版本号>/       历代版本：发布记录 + 归档 exe（索引见 versions/README.md）
+├── dist/PressRead.exe       本地打包产物（已在 .gitignore 中，不入库）
 └── tests/                   单元测试 + GUI 冒烟测试 + fixture
 ```
 
@@ -400,7 +466,7 @@ PressRead/
 
 ---
 
-## 十一、测试
+## 测试
 
 ```bash
 python tests/run_tests.py          # 218 个单元测试，约 3 秒
@@ -417,23 +483,27 @@ python tests/smoke_test.py --online  # 冒烟 + 真实查词/翻译链路（需�
   其中「一次显示多段」「多段正文含分段空行」「多段译文逐句对齐」三项专门盯分段缩进；
   「英英未切换不加载」「切到英英才查牛津」「英英原地替换英汉」「切回英汉不重新请求」
   四项专门盯双状态开关——断言的是「英英文字出现且英汉文字消失」，能抓出「往下追加」的回退。
+- 冒烟测试默认在 `.tmp_home/smoke` 建临时数据目录，可用 `PRESSREAD_SMOKE_HOME` 指到别处
+  （例如打截图给 README 用时，避免界面状态栏出现项目路径）。
 
 ---
 
-## 十二、打包成 exe（可选）
+## 打包成可执行文件
 
-成品在 `dist/PressRead.exe`：**单文件，约 13 MB，双击即用**，目标机器不需要装 Python。
+仓库不收录二进制，成品挂在 [Releases](https://github.com/Ghub-7121/PressRead/releases)：
+**单文件，约 13 MB，双击即用**，目标机器不需要装 Python。
 首次启动会自解包到临时目录，比后续启动慢 1–2 秒。
 
-自己重新打包：
+自己重新打包（Windows 产物为 `dist/PressRead.exe`）：
 
 ```bash
-# 1) 建一个带 tkinter 的打包环境（PyInstaller 只在打包时用，不是运行依赖）
-"C:\Program Files\Python313\python.exe" -m venv ../../.venv_press
-../../.venv_press/Scripts/python.exe -m pip install pyinstaller
+# 1) 建打包环境（PyInstaller 只在打包时用，不是运行依赖）
+python -m venv .venv
+.venv\Scripts\activate          # macOS / Linux: source .venv/bin/activate
+pip install pyinstaller
 
-# 2) 打包：写版本资源与图标，打包完自动跑一次 exe 自检
-../../.venv_press/Scripts/python.exe tools/build_exe.py --clean
+# 2) 打包：写版本资源与图标，打完自动跑一次 exe 自检
+python tools/build_exe.py --clean
 ```
 
 常用开关：
@@ -465,7 +535,22 @@ dist/PressRead.exe --selftest  # 联网自检，结果写 %APPDATA%\PressRead\lo
 
 ---
 
-## 十三、已知限制
+## 版本历史
+
+- **全量改动**：[`CHANGELOG.md`](CHANGELOG.md)，从 1.0.0 到当前 1.7.0，一版一节。
+- **每版发布记录与成品**：[`versions/`](versions/README.md)，一个版本一个文件夹，
+  含 `RELEASE_NOTES.md`；有归档的版本另附 `PressRead-<版本号>.exe`。索引见 `versions/README.md`。
+- **当前版本**：1.7.0（`pressread/__init__.py` 的 `__version__`，exe 文件属性同源）。
+- **编号规则**：第二位升号 = 新增用户能感知的功能；第三位升号 = 修 bug / 调文案 / 改兼容，不加功能。
+- **† 标记**：回溯补记。1.6.0 同批构建里有两处修复当时没单独编号，现补记为 1.6.1† / 1.6.2†，
+  只有说明、没有独立成品；其余版本的同类修复均在打包前完成，已计入各自版本。
+- **成品现状**：1.0.0–1.6.0 每次重打包都覆盖 `dist/PressRead.exe`，历史二进制没有留存，只有发布记录；
+  1.7.0 起把每版 exe 归档进 `versions/<版本号>/`，同时挂到
+  [GitHub Releases](https://github.com/Ghub-7121/PressRead/releases)。
+
+---
+
+## 已知限制
 
 1. **网络依赖**：TIME、纽约时报、Google 翻译、BBC、Nature 等在当前网络下不可达，
    程序会自动跳过；换网络环境可在设置里打开对应来源。
@@ -485,8 +570,30 @@ dist/PressRead.exe --selftest  # 联网自检，结果写 %APPDATA%\PressRead\lo
 
 ---
 
-## 十四、版权与隐私
+## 参与贡献
 
-- 抓取的原文版权归原媒体所有，程序仅在本地展示，导出文件仅供个人语言学习使用。
-- 除查词（剑桥 / 牛津）与翻译（所选 provider）外，不上传任何内容；缓存与练习记录都只存在本机。
-- 不收集任何使用统计。
+- **报问题**：开 [Issue](https://github.com/Ghub-7121/PressRead/issues)，附上版本号
+  （`python main.py --version`）、复现步骤；抓取类问题请注明来源名与大概时间。
+- **提 PR**：从 `main` 切分支，改完先把测试跑一遍：
+
+  ```bash
+  python tests/run_tests.py
+  python tests/run_tests.py --gui
+  ```
+
+- **代码约定**：只用标准库；改词典或翻译链路时，同时更新 `tests/` 与本文档里的说明表；
+  新增来源必须「列表能取到 + 正文能抽出」两条都过，才设为默认。
+- **加来源**：改 `pressread/feeds.py` 的 `SOURCES`（分类、默认开关、一句简介），
+  再在本文「外刊来源」一节登记。
+- 这个项目对你有用的话，点个 Star 就是最好的支持。
+
+---
+
+## 版权与许可
+
+- 抓取的原文版权归原媒体所有，程序仅在本地展示，导出的 Markdown / JSON 仅供个人语言学习使用，
+  请勿二次分发。
+- 除查词（剑桥 / 牛津）与翻译（所选 provider）外，不上传任何内容；缓存与练习记录只存在本机，
+  不收集任何使用统计。
+- 本仓库代码可自由阅读、fork、修改用于个人学习；**转载、商用或再分发前请先开 Issue 联系作者**。
+- 词典释义与机器译文分别来自剑桥大学出版社、牛津大学出版社与微软 Translator，界面内已标注当前来源。
