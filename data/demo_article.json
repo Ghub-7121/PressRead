@@ -1,0 +1,59 @@
+{
+  "title": "The Ocean's Twilight Zone Is Full of Secrets",
+  "source_name": "离线示例 · PressRead 编辑部",
+  "category": "科学",
+  "author": "PressRead",
+  "published": "2026-10-01",
+  "note": "本篇为程序自带的原创示例文章，仅用于断网时演示完整流程（原文、逐句参考译文均为本程序编写，不涉及第三方版权）。",
+  "paragraphs": [
+    {
+      "text": "Sunlight fades quickly as you sink below the ocean's surface, and by about 200 meters the water has turned a deep, dusky blue. This dim layer, known as the twilight zone, stretches down to roughly 1,000 meters and holds more fish than the rest of the ocean combined. Yet it remains one of the least explored places on Earth. Scientists estimate that humans have directly observed only a tiny fraction of the animals that live there.",
+      "sentences": [
+        "Sunlight fades quickly as you sink below the ocean's surface, and by about 200 meters the water has turned a deep, dusky blue.",
+        "This dim layer, known as the twilight zone, stretches down to roughly 1,000 meters and holds more fish than the rest of the ocean combined.",
+        "Yet it remains one of the least explored places on Earth.",
+        "Scientists estimate that humans have directly observed only a tiny fraction of the animals that live there."
+      ],
+      "translations": [
+        "当你潜入海面以下，阳光会迅速减弱；到大约 200 米深处，海水已变成幽暗的深蓝色。",
+        "这个昏暗的水层被称为暮光带，向下延伸至约 1000 米，其中的鱼类总量超过海洋其余部分的总和。",
+        "然而，它仍是地球上被探索得最少的地方之一。",
+        "科学家估计，人类只直接观察过生活在那里的一小部分动物。"
+      ]
+    },
+    {
+      "text": "The twilight zone is not merely a corridor between sunlit waters and the abyss. It is a busy biological highway. Every night, billions of small creatures swim upward to feed in shallower water, then retreat before dawn. This daily migration is thought to be the largest movement of biomass on the planet. By carrying carbon downward as they sink, these animals help regulate the climate in ways that researchers are only beginning to measure.",
+      "sentences": [
+        "The twilight zone is not merely a corridor between sunlit waters and the abyss.",
+        "It is a busy biological highway.",
+        "Every night, billions of small creatures swim upward to feed in shallower water, then retreat before dawn.",
+        "This daily migration is thought to be the largest movement of biomass on the planet.",
+        "By carrying carbon downward as they sink, these animals help regulate the climate in ways that researchers are only beginning to measure."
+      ],
+      "translations": [
+        "暮光带不仅仅是阳光照耀的水域与深渊之间的一条通道。",
+        "它是一条繁忙的生物高速公路。",
+        "每天夜里，数十亿微小生物向上游动，到较浅的水域觅食，天亮前再退回深处。",
+        "这种日常迁徙被认为是地球上规模最大的生物量移动。",
+        "这些动物在下沉时把碳带向深处，以研究者才刚刚开始测度的方式帮助调节气候。"
+      ]
+    },
+    {
+      "text": "Studying such remote life is difficult, but new tools are making it easier. Engineers have built cameras that can record in almost total darkness, and autonomous robots that can drift for weeks without disturbing the animals they pass. In 2025, a team used these instruments to film a species of giant squid that had never been seen alive. Each expedition returns with more questions than answers, which is exactly what makes the twilight zone so fascinating. What we learn there may change how we think about the ocean, and about our own place on a planet that is still largely unexplored.",
+      "sentences": [
+        "Studying such remote life is difficult, but new tools are making it easier.",
+        "Engineers have built cameras that can record in almost total darkness, and autonomous robots that can drift for weeks without disturbing the animals they pass.",
+        "In 2025, a team used these instruments to film a species of giant squid that had never been seen alive.",
+        "Each expedition returns with more questions than answers, which is exactly what makes the twilight zone so fascinating.",
+        "What we learn there may change how we think about the ocean, and about our own place on a planet that is still largely unexplored."
+      ],
+      "translations": [
+        "研究如此遥远的生命并不容易，但新工具正让这件事变得简单一些。",
+        "工程师们造出了几乎能在全黑环境中拍摄的相机，以及可以漂流数周、不惊扰途经动物的自主机器人。",
+        "2025 年，一支团队用这些设备拍到了此前从未被活体观察过的一种大王乌贼。",
+        "每次考察带回的疑问都比答案多，而这正是暮光带如此迷人的原因。",
+        "我们在那里学到的东西，或许会改变我们对海洋的看法，也改变我们对自身在这颗仍未被充分探索的星球上所处位置的认识。"
+      ]
+    }
+  ]
+}

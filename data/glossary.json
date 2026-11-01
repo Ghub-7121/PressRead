@@ -1,0 +1,128 @@
+{
+  "_note": "离线备用词表：只覆盖示例文章与常见词，供完全断网时演示。释义为本程序编写，不是牛津原文。",
+  "twilight": {
+    "phonetic": "/ˈtwaɪlaɪt/",
+    "senses": [
+      {
+        "pos": "noun",
+        "def": "the faint light after the sun has set; (attributive) the dim zone of the ocean between sunlight and total darkness 暮色；暮光带",
+        "examples": ["the twilight zone of the ocean"]
+      }
+    ]
+  },
+  "zone": {
+    "phonetic": "/zəʊn/",
+    "senses": [
+      {"pos": "noun", "def": "an area or region with a particular characteristic 地带；区域", "examples": ["a war zone"]}
+    ]
+  },
+  "abyss": {
+    "phonetic": "/əˈbɪs/",
+    "senses": [
+      {"pos": "noun", "def": "a very deep hole or space; the deepest part of the sea 深渊；深海", "examples": ["creatures of the abyss"]}
+    ]
+  },
+  "biomass": {
+    "phonetic": "/ˈbaɪəʊmæs/",
+    "senses": [
+      {"pos": "noun", "def": "the total mass of living material in a given area 生物量", "examples": ["the biomass of the forest"]}
+    ]
+  },
+  "migration": {
+    "phonetic": "/maɪˈɡreɪʃn/",
+    "senses": [
+      {"pos": "noun", "def": "the movement of animals to a different region, usually with the seasons 迁徙", "examples": ["the annual migration of birds"]}
+    ]
+  },
+  "autonomous": {
+    "phonetic": "/ɔːˈtɒnəməs/",
+    "senses": [
+      {"pos": "adjective", "def": "able to operate independently, without human control 自主的；独立运作的", "examples": ["an autonomous robot"]}
+    ]
+  },
+  "expedition": {
+    "phonetic": "/ˌekspəˈdɪʃn/",
+    "senses": [
+      {"pos": "noun", "def": "a journey made for a particular purpose, especially scientific research 考察；远征", "examples": ["a research expedition to the Arctic"]}
+    ]
+  },
+  "fraction": {
+    "phonetic": "/ˈfrækʃn/",
+    "senses": [
+      {"pos": "noun", "def": "a small part of something 小部分；片段", "examples": ["only a fraction of the total"]}
+    ]
+  },
+  "regulate": {
+    "phonetic": "/ˈreɡjuleɪt/",
+    "senses": [
+      {"pos": "verb", "def": "to control something so that it stays at a steady level 调节；控制", "examples": ["regulate body temperature"]}
+    ]
+  },
+  "dusky": {
+    "phonetic": "/ˈdʌski/",
+    "senses": [
+      {"pos": "adjective", "def": "dark in colour; dim 暗淡的；昏暗的", "examples": ["dusky blue water"]}
+    ]
+  },
+  "corridor": {
+    "phonetic": "/ˈkɒrɪdɔː(r)/",
+    "senses": [
+      {"pos": "noun", "def": "a long narrow passage; a route that connects two places 走廊；通道", "examples": ["a wildlife corridor"]}
+    ]
+  },
+  "fascinating": {
+    "phonetic": "/ˈfæsɪneɪtɪŋ/",
+    "senses": [
+      {"pos": "adjective", "def": "extremely interesting 极其有趣的；迷人的", "examples": ["a fascinating discovery"]}
+    ]
+  },
+  "largely": {
+    "phonetic": "/ˈlɑːdʒli/",
+    "senses": [
+      {"pos": "adverb", "def": "mostly; mainly 主要地；大部分", "examples": ["a largely unexplored region"]}
+    ]
+  },
+  "drift": {
+    "phonetic": "/drɪft/",
+    "senses": [
+      {"pos": "verb", "def": "to move slowly without a fixed direction 漂流；漂移", "examples": ["The boat drifted out to sea."]}
+    ]
+  },
+  "species": {
+    "phonetic": "/ˈspiːʃiːz/",
+    "senses": [
+      {"pos": "noun", "def": "a group of animals or plants of the same kind 物种", "examples": ["an endangered species"]}
+    ]
+  },
+  "remote": {
+    "phonetic": "/rɪˈməʊt/",
+    "senses": [
+      {"pos": "adjective", "def": "far away from places where people live 偏远的", "examples": ["a remote island"]},
+      {"pos": "adjective", "def": "not closely connected 关系疏远的", "examples": []}
+    ]
+  },
+  "observe": {
+    "phonetic": "/əbˈzɜːv/",
+    "senses": [
+      {"pos": "verb", "def": "to watch something carefully 观察", "examples": ["observe animal behaviour"]}
+    ]
+  },
+  "estimate": {
+    "phonetic": "/ˈestɪmeɪt/",
+    "senses": [
+      {"pos": "verb", "def": "to form an idea of the amount or value of something 估计", "examples": ["Experts estimate that the work will take a year."]}
+    ]
+  },
+  "stretch": {
+    "phonetic": "/stretʃ/",
+    "senses": [
+      {"pos": "verb", "def": "to spread over an area or distance 延伸", "examples": ["The beach stretches for miles."]}
+    ]
+  },
+  "climate": {
+    "phonetic": "/ˈklaɪmət/",
+    "senses": [
+      {"pos": "noun", "def": "the usual weather conditions of a region 气候", "examples": ["a mild climate"]}
+    ]
+  }
+}
