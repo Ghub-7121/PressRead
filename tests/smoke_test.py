@@ -146,7 +146,8 @@ def seed_word_cache(ctx) -> str:
 def main(argv: list[str]) -> int:
     online = "--online" in argv
 
-    home = ROOT / ".tmp_home" / "smoke"
+    # PRESSREAD_SMOKE_HOME 可把测试数据目录挪到别处（截图里就不会出现项目路径）
+    home = Path(os.environ.get("PRESSREAD_SMOKE_HOME") or ROOT / ".tmp_home" / "smoke")
     if home.exists():
         shutil.rmtree(home, ignore_errors=True)
     home.mkdir(parents=True, exist_ok=True)
